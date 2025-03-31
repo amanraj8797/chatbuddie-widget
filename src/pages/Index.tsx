@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ChatWidget from "@/components/chat/ChatWidget";
@@ -20,7 +19,7 @@ const Index = () => {
           <Button className="bg-indigo-600 hover:bg-indigo-700">Sign In</Button>
         </div>
       </nav>
-
+      
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
         <h2 className="text-4xl md:text-6xl font-bold mb-8">
@@ -75,7 +74,7 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Chat Widget */}
+      {/* Chat Widget - now without API key parameter */}
       <ChatWidget />
     </div>
   );

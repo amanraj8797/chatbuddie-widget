@@ -52,6 +52,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, apiKey }) => {
     setIsLoading(true);
     
     try {
+      // Updated to use Gemini 2.0 Flash model
       const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent", {
         method: "POST",
         headers: {

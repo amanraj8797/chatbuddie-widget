@@ -4,24 +4,14 @@ import ChatButton from "./ChatButton";
 import ChatInterface from "./ChatInterface";
 import { AnimatePresence, motion } from "framer-motion";
 
-interface ChatWidgetProps {
-  apiKey?: string; 
-}
-
-const ChatWidget: React.FC<ChatWidgetProps> = ({ apiKey = "" }) => {
+const ChatWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showApiKeyInput, setShowApiKeyInput] = useState(!apiKey);
-  const [apiKeyValue, setApiKeyValue] = useState(apiKey);
-
+  
+  // Pre-configured API key (in a real app, consider storing this more securely)
+  const apiKey = "YOUR_GEMINI_API_KEY_HERE"; // Replace with your actual Gemini API key
+  
   const toggleChat = () => {
     setIsOpen((prev) => !prev);
-  };
-
-  const handleSubmitApiKey = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (apiKeyValue.trim()) {
-      setShowApiKeyInput(false);
-    }
   };
 
   return (
@@ -35,31 +25,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ apiKey = "" }) => {
             transition={{ duration: 0.2 }}
             className="mb-4"
           >
-            {showApiKeyInput ? (
-              <div className="bg-white p-4 rounded-lg shadow-xl w-[350px]">
-                <h3 className="font-semibold mb-2">Enter Gemini API Key</h3>
-                <form onSubmit={handleSubmitApiKey}>
-                  <input
-                    type="password"
-                    value={apiKeyValue}
-                    onChange={(e) => setApiKeyValue(e.target.value)}
-                    className="w-full p-2 border rounded mb-2"
-                    placeholder="Paste your API key here"
-                  />
-                  <button
-                    type="submit"
-                    className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
-                  >
-                    Submit
-                  </button>
-                </form>
-                <p className="text-xs mt-2 text-gray-500">
-                  Your API key will be stored in your browser's local storage.
-                </p>
-              </div>
-            ) : (
-              <ChatInterface onClose={toggleChat} apiKey={apiKeyValue} />
-            )}
+            <ChatInterface onClose={toggleChat} apiKey={apiKey} />
           </motion.div>
         )}
       </AnimatePresence>
