@@ -15,7 +15,14 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser, timestamp })
   
   useEffect(() => {
     // Format bold text: replace *text* with <strong>text</strong>
-    const formatted = message.replace(/\*(.*?)\*/g, "<strong>$1</strong>");
+    let formatted = message.replace(/\*(.*?)\*/g, "<strong>$1</strong>");
+    
+    // Format italic text: replace _text_ with <em>text</em>
+    formatted = formatted.replace(/_(.*?)_/g, "<em>$1</em>");
+    
+    // Format links: replace [text](url) with <a href="url" target="_blank">text</a>
+    formatted = formatted.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" class="text-indigo-600 hover:underline">$1</a>');
+    
     setFormattedMessage(formatted);
   }, [message]);
 
