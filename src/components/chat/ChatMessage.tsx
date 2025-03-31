@@ -1,7 +1,8 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { BotMessageSquare, MessageCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface ChatMessageProps {
   message: string;
@@ -10,8 +11,19 @@ interface ChatMessageProps {
 }
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser, timestamp }) => {
+  const [formattedMessage, setFormattedMessage] = useState<string>(message);
+  
+  useEffect(() => {
+    // Format bold text: replace *text* with <strong>text</strong>
+    const formatted = message.replace(/\*(.*?)\*/g, "<strong>$1</strong>");
+    setFormattedMessage(formatted);
+  }, [message]);
+
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
       className={cn(
         "flex w-full mb-4",
         isUser ? "justify-end" : "justify-start"
@@ -23,7 +35,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser, timestamp })
           isUser ? "flex-row-reverse" : "flex-row"
         )}
       >
-        <div
+        <motion.div
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.2 }}
           className={cn(
             "flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full mr-2",
             isUser ? "bg-indigo-600 ml-2 mr-0" : "bg-gray-200"
@@ -34,8 +49,11 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser, timestamp })
           ) : (
             <BotMessageSquare className="h-4 w-4 text-gray-700" />
           )}
-        </div>
-        <div
+        </motion.div>
+        <motion.div
+          initial={{ scale: 0.95 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.2 }}
           className={cn(
             "rounded-lg py-2 px-3",
             isUser
@@ -43,13 +61,16 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser, timestamp })
               : "bg-gray-200 text-gray-800 rounded-tl-none"
           )}
         >
-          <p className="text-sm">{message}</p>
+          <p 
+            className="text-sm"
+            dangerouslySetInnerHTML={{ __html: formattedMessage }}
+          />
           <p className="text-xs mt-1 opacity-70">
             {timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </p>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
